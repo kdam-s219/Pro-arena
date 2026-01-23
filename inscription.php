@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <select name="role" id="role_id">
                 <option value="athlete">Athlète</option>
                 <option value="organisateur">Organisateur</option>
-                <option value ="club">Club</option>
+                <option value ="club">Club</option> 
             </select>
 
             <br><br>
