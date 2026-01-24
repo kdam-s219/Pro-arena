@@ -14,7 +14,7 @@ $pass = '';                   // Mot de passe par défaut de XAMPP (vide)
 try {
     // --- PARTIE 3 : LA CONNEXION PDO ---
     // PDO (PHP Data Objects) est une interface sécurisée pour interagir avec MySQL.
-    // On précise l'encodage 'utf8' pour bien gérer les accents (français/arabe).
+    // On précise l'encodage 'utf8' pour bi en gérer les accents (français/arabe).
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
 
     // --- PARTIE 4 : SÉCURITÉ ET ERREURS ---
