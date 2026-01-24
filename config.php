@@ -7,7 +7,7 @@ session_start();
 
 // --- PARTIE 2 : CONFIGURATION DE LA BASE ---
 $host = 'localhost';          // Ton serveur local (XAMPP)
-$dbname = 'proarena_gestion'; // Le nom exact de ta base de données
+$dbname = 'proarena_gestion_tournoi'; // Le nom exact de ta base de données
 $user = 'root';               // Utilisateur par défaut de XAMPP
 $pass = '';                   // Mot de passe par défaut de XAMPP (vide)
 
