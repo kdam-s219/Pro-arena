@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2026 at 01:37 AM
+-- Generation Time: Jan 24, 2026 at 01:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,9 +61,17 @@ CREATE TABLE `utulisateurs` (
   `prenom` varchar(150) NOT NULL,
   `email` varchar(150) NOT NULL,
   `mot_de_passe` varchar(255) NOT NULL,
-  `role` varchar(40) NOT NULL,
+  `role` enum('athlete','organisateur','club') NOT NULL,
   `date_d_inscription` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `utulisateurs`
+--
+
+INSERT INTO `utulisateurs` (`id`, `nom`, `prenom`, `email`, `mot_de_passe`, `role`, `date_d_inscription`) VALUES
+(1, 'ELMOUDNI', 'ADAM', 'adam24moudni@gmail.com', '$2y$10$DWx2jCoeuoZTcO6uxakV0upUw6aHcn290Nok2a4bJVP9Y1qnX2uHa', 'athlete', '2026-01-24 00:37:30'),
+(3, 'FAHD', 'FAHD', 'fahd21fahd@gmail.com', '$2y$10$dbkckfOTpatyM6SBAaHWju4iMvuW9V4aUL5Fww2jVlVqe4LP.5mny', 'athlete', '2026-01-24 00:44:23');
 
 --
 -- Indexes for dumped tables
@@ -104,7 +112,7 @@ ALTER TABLE `competition`
 -- AUTO_INCREMENT for table `utulisateurs`
 --
 ALTER TABLE `utulisateurs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
