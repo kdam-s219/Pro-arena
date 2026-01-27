@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 24, 2026 at 01:24 AM
+-- Generation Time: Jan 27, 2026 at 05:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,22 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `competition`
---
-
-CREATE TABLE `competition` (
-  `id` int(11) NOT NULL,
-  `titre` varchar(150) NOT NULL,
-  `description` text NOT NULL,
-  `date_tournoi` date NOT NULL,
-  `lieu` varchar(150) NOT NULL,
-  `capacite_max` int(11) NOT NULL,
-  `id_organisateur` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `inscription`
 --
 
@@ -48,6 +32,36 @@ CREATE TABLE `inscription` (
   `id_competition` int(11) NOT NULL,
   `date_inscription` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `inscription`
+--
+
+INSERT INTO `inscription` (`id_utulisateur`, `id_competition`, `date_inscription`) VALUES
+(6, 1, '2026-01-27 04:14:32'),
+(7, 1, '2026-01-27 04:29:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tournois`
+--
+
+CREATE TABLE `tournois` (
+  `id` int(11) NOT NULL,
+  `titre` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `date_debut` datetime NOT NULL,
+  `lieu` varchar(100) NOT NULL,
+  `club_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tournois`
+--
+
+INSERT INTO `tournois` (`id`, `titre`, `description`, `date_debut`, `lieu`, `club_id`) VALUES
+(1, 'OULALALALA', 'AYYAYAYAYAYAYAYAYAYAYAYAAY', '1222-12-12 12:12:00', 'CASA', 5);
 
 -- --------------------------------------------------------
 
@@ -70,19 +84,14 @@ CREATE TABLE `utulisateurs` (
 --
 
 INSERT INTO `utulisateurs` (`id`, `nom`, `prenom`, `email`, `mot_de_passe`, `role`, `date_d_inscription`) VALUES
-(1, 'ELMOUDNI', 'ADAM', 'adam24moudni@gmail.com', '$2y$10$DWx2jCoeuoZTcO6uxakV0upUw6aHcn290Nok2a4bJVP9Y1qnX2uHa', 'athlete', '2026-01-24 00:37:30'),
-(3, 'FAHD', 'FAHD', 'fahd21fahd@gmail.com', '$2y$10$dbkckfOTpatyM6SBAaHWju4iMvuW9V4aUL5Fww2jVlVqe4LP.5mny', 'athlete', '2026-01-24 00:44:23');
+(4, 'ELMOUDNI', 'ADAM', 'adam24moudni@gmail.com', '$2y$10$HHp6FTZmpizP22gNGXwQvuPhbjzKvzGV..z3aGSXpbH6jmGkIlDPy', 'athlete', '2026-01-24 01:53:56'),
+(5, 'FAHD', 'adam', 'adamelmoudni8@gmail.com', '$2y$10$2WpW8eybJPGirPD0GZoFme/j2jAo6KwsicXcRU783SzVPBB7W1tqS', 'club', '2026-01-27 04:14:04'),
+(6, 'l3witi', '7med', '7medben7med@gmail.com', '$2y$10$MnbIctuOaPIKP9Qo7s9yi.GRgRAHYE5X1KAih8NnOO3jMB.DHNwYK', 'athlete', '2026-01-27 04:59:36'),
+(7, 'samiri', 'ali', 'alisamiri@gmail.com', '$2y$10$MuVdKVIUSBo/p.kWT17zlO9Lt6DoLZgEGq2yZd6JAwxieP20hp7xG', 'athlete', '2026-01-27 05:28:42');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `competition`
---
-ALTER TABLE `competition`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_organisateur` (`id_organisateur`);
 
 --
 -- Indexes for table `inscription`
@@ -90,6 +99,13 @@ ALTER TABLE `competition`
 ALTER TABLE `inscription`
   ADD KEY `id_utulisateur` (`id_utulisateur`),
   ADD KEY `id_competition` (`id_competition`);
+
+--
+-- Indexes for table `tournois`
+--
+ALTER TABLE `tournois`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_club_tournoi` (`club_id`);
 
 --
 -- Indexes for table `utulisateurs`
@@ -103,33 +119,33 @@ ALTER TABLE `utulisateurs`
 --
 
 --
--- AUTO_INCREMENT for table `competition`
+-- AUTO_INCREMENT for table `tournois`
 --
-ALTER TABLE `competition`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tournois`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `utulisateurs`
 --
 ALTER TABLE `utulisateurs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `competition`
---
-ALTER TABLE `competition`
-  ADD CONSTRAINT `organisateur_competition` FOREIGN KEY (`id_organisateur`) REFERENCES `utulisateurs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `inscription`
 --
 ALTER TABLE `inscription`
-  ADD CONSTRAINT `competition_id` FOREIGN KEY (`id_competition`) REFERENCES `competition` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `competition_id` FOREIGN KEY (`id_competition`) REFERENCES `tournois` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `utulisateur_id` FOREIGN KEY (`id_utulisateur`) REFERENCES `utulisateurs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tournois`
+--
+ALTER TABLE `tournois`
+  ADD CONSTRAINT `fk_club_tournoi` FOREIGN KEY (`club_id`) REFERENCES `utulisateurs` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
