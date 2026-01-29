@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'club') {
 $id_tournoi = $_GET['id'];
 
 // Requête pour récupérer les informations des athlètes inscrits
-$sql = "SELECT u.nom, u.prenom, u.email 
+$sql = "SELECT u.id, u.nom, u.prenom, u.email 
         FROM inscription i
         JOIN utulisateurs u ON i.id_utulisateur = u.id
         WHERE i.id_competition = :id";
@@ -35,28 +35,33 @@ $inscrits = $stmt->fetchAll();
     <br>
 
     <table border="1">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (count($inscrits) > 0): ?>
-                <?php foreach ($inscrits as $athlete): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($athlete['nom']) ?></td>
-                        <td><?= htmlspecialchars($athlete['prenom']) ?></td>
-                        <td><?= htmlspecialchars($athlete['email']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Action</th> </tr>
+    </thead>
+    <tbody>
+        <?php if (count($inscrits) > 0): ?>
+            <?php foreach ($inscrits as $athlete): ?>
                 <tr>
-                    <td colspan="3">Aucun inscrit pour le moment.</td>
+                    <td><?= htmlspecialchars($athlete['nom']) ?></td>
+                    <td><?= htmlspecialchars($athlete['prenom']) ?></td>
+                    <td><?= htmlspecialchars($athlete['email']) ?></td>
+                    <td>
+                        <a href="retirer_athlete.php?athlete_id=<?= $athlete['id'] ?>&tournoi_id=<?= $id_tournoi ?>" 
+                           onclick="return confirm('Voulez-vous vraiment retirer cet athlète ?')" 
+                           style="color: red; font-weight: bold;">
+                           Retirer
+                        </a>
+                    </td>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr><td colspan="4">Aucun inscrit pour le moment.</td></tr>
+        <?php endif; ?>
+    </tbody>
+</table>
 </body>
 </html>

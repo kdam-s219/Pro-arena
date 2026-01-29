@@ -114,22 +114,29 @@ $tous_les_tournois = $requete->fetchAll();
     <h2>Mes Inscriptions</h2>
     <?php if (count($mes_inscriptions) > 0): ?>
         <table border="1">
-            <thead>
-                <tr>
-                    <th>Tournoi</th>
-                    <th>Lieu</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($mes_inscriptions as $insc): ?>
-                    <tr>
+        <thead>
+                                 <tr>
+                         <th>Tournoi</th>
+                           <th>Lieu</th>
+                      <th>Date</th>
+                          <th>Action</th> </tr>
+        </thead>
+    <tbody>
+                 <?php foreach ($mes_inscriptions as $insc): ?>
+                        <tr>
                         <td><?= htmlspecialchars($insc['titre']) ?></td>
                         <td><?= htmlspecialchars($insc['lieu']) ?></td>
                         <td><?= htmlspecialchars($insc['date_debut']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
+                            <td>
+                        <a href="annuler_inscription.php?id=<?= $insc['id'] ?>" 
+                            onclick="return confirm('Voulez-vous vraiment vous désinscrire ?')" 
+                            style="color: red;">
+                            Se désinscrire
+                        </a>
+                        </td>
+                     </tr>
+                 <?php endforeach; ?>
+    </tbody>
         </table>
     <?php else: ?>
         <p>Vous n'êtes inscrit à aucun tournoi pour le moment.</p>
