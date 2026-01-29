@@ -50,6 +50,7 @@ $tous_les_tournois = $requete->fetchAll();
         </span>
         <a href="logout.php" class="btn btn-outline-custom btn-sm">Déconnexion</a>
         <a href="porifil.php" class="btn btn-outline-custom btn-sm">Mon profil</a>
+        <a href="tournois.php" class="btn btn-outline-custom btn-sm">Explorer les tournois</a>
     </div>
 </nav>
 
