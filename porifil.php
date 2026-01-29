@@ -1,6 +1,11 @@
 <?php
 require_once 'config.php';
 
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] == 'club' ) {
+    header("Location: dashboard.php");
+    exit();
+}
+
 // Sécurité : Seul un utilisateur connecté peut accéder à son profil
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
