@@ -2,7 +2,7 @@
 require_once 'config.php';
 
 // Sécurité : Seul le club peut voir cette page
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'club') {
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] == 'athlete') {
     header("Location: dashboard.php");
     exit();
 }

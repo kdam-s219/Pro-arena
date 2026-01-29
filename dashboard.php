@@ -30,119 +30,148 @@ $tous_les_tournois = $requete->fetchAll();
 
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Dashboard - Pro-Arena</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - ProArena</title>
 
-    <body>
-        
-        <h1>Bienvenue sur votre dashboard, <?php echo $_SESSION['user_prenom'] . " " . $_SESSION['user_name']; ?>!</h1>
-        <p>Vous êtes connecté en tant que : <?php echo $_SESSION['user_role']; ?></strong></p>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/design-system.css">
+</head>
+<body>
 
+<!-- Navbar -->
+<nav class="navbar navbar-custom px-4">
+    <span class="navbar-brand text-white fw-bold">ProArena</span>
 
-        <br>
-
-        
-
-     
-
-    
-
-
-<?php if ($_SESSION['user_role'] === 'club'): ?>
-    <hr>
-    <h3>Menu Club</h3>
-    <ul>
-        <li>
-            <a href="creer_tournoi.php">Créer un nouveau tournoi</a>
-        </li>
-    </ul>
-    <hr>
-<?php endif; ?> 
-
-
-
-
-<hr>
-<h2>Liste des Tournois Disponibles</h2>
-
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>Titre</th>
-            <th>Lieu</th>
-            <th>Date</th>
-            <th>Organisateur</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($tous_les_tournois as $tournoi): ?>
-            <tr>
-                <td><?php echo $tournoi['titre']; ?></td>
-                <td><?php echo $tournoi['lieu']; ?></td>
-                <td><?php echo $tournoi['date_debut']; ?></td>
-                <td><?php echo $tournoi['nom']; ?></td>
-                <td>
-                   <?php if ($_SESSION['user_role'] === 'athlete'): ?>
-                   <a href="inscription_tournoi.php?id=<?= $tournoi['id'] ?>">S'inscrire</a>
-                   <?php elseif ($_SESSION['user_role'] === 'club' && $tournoi['club_id'] == $_SESSION['user_id']): ?>
-                   <a href="gestion_tournoi.php?id=<?= $tournoi['id'] ?>" style="color: orange;">Gérer les inscrits</a>
-                   <?php else: ?>
-                     --
-                   <?php endif; ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-<?php if (isset($_GET['success']) && $_GET['success'] == 'inscrit'): ?>
-    <div style="background-color: #d4edda; color: #155724; padding: 15px; border: 1px solid #c3e6cb; border-radius: 5px; margin-bottom: 20px;">
-        ✅ Félicitations ! Votre inscription au tournoi a été enregistrée avec succès.
+    <div class="ms-auto d-flex align-items-center gap-3">
+        <span class="text-muted-custom">
+            <?= $_SESSION['user_prenom'] . " " . $_SESSION['user_name']; ?>
+        </span>
+        <a href="logout.php" class="btn btn-outline-custom btn-sm">Déconnexion</a>
     </div>
-<?php endif; ?>
+</nav>
 
-<?php if (isset($_GET['error']) && $_GET['error'] == 'echec'): ?>
-    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border: 1px solid #f5c6cb; border-radius: 5px; margin-bottom: 20px;">
-        ❌ Une erreur est survenue lors de l'inscription. Veuillez réessayer.
+<div class="container my-4">
+
+    <!-- Welcome card -->
+    <div class="glass-card mb-4">
+        <h3>Bienvenue 👋</h3>
+        <p class="text-muted-custom mb-0">
+            Vous êtes connecté en tant que : <strong><?= $_SESSION['user_role']; ?></strong>
+        </p>
     </div>
-<?php endif; ?>
 
-<?php if ($_SESSION['user_role'] === 'athlete'): ?>
-    <h2>Mes Inscriptions</h2>
-    <?php if (count($mes_inscriptions) > 0): ?>
-        <table border="1">
-        <thead>
-                                 <tr>
-                         <th>Tournoi</th>
-                           <th>Lieu</th>
-                      <th>Date</th>
-                          <th>Action</th> </tr>
-        </thead>
-    <tbody>
-                 <?php foreach ($mes_inscriptions as $insc): ?>
-                        <tr>
-                        <td><?= htmlspecialchars($insc['titre']) ?></td>
-                        <td><?= htmlspecialchars($insc['lieu']) ?></td>
-                        <td><?= htmlspecialchars($insc['date_debut']) ?></td>
-                            <td>
-                        <a href="annuler_inscription.php?id=<?= $insc['id'] ?>" 
-                            onclick="return confirm('Voulez-vous vraiment vous désinscrire ?')" 
-                            style="color: red;">
-                            Se désinscrire
-                        </a>
-                        </td>
-                     </tr>
-                 <?php endforeach; ?>
-    </tbody>
-        </table>
-    <?php else: ?>
-        <p>Vous n'êtes inscrit à aucun tournoi pour le moment.</p>
+    <!-- Club menu -->
+    <?php if ($_SESSION['user_role'] === 'club'): ?>
+        <div class="glass-card mb-4">
+            <h4>Menu Club</h4>
+            <a href="creer_tournoi.php" class="btn btn-primary-custom mt-2">
+                ➕ Créer un nouveau tournoi
+            </a>
+        </div>
     <?php endif; ?>
-    <hr>
-<?php endif; ?>
-    </body>
-     <p><a href="logout.php">Se déconnecter</a></p>
+
+    <!-- Alerts -->
+    <?php if (isset($_GET['success']) && $_GET['success'] == 'inscrit'): ?>
+        <div class="alert alert-success">
+            ✅ Félicitations ! Votre inscription au tournoi a été enregistrée avec succès.
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] == 'echec'): ?>
+        <div class="alert alert-danger">
+            ❌ Une erreur est survenue lors de l'inscription. Veuillez réessayer.
+        </div>
+    <?php endif; ?>
+
+    <!-- Tournois -->
+    <div class="glass-card mb-4">
+        <h4 class="mb-3">Tournois disponibles</h4>
+
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Lieu</th>
+                        <th>Date</th>
+                        <th>Organisateur</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($tous_les_tournois as $tournoi): ?>
+                    <tr>
+                        <td><?= $tournoi['titre']; ?></td>
+                        <td><?= $tournoi['lieu']; ?></td>
+                        <td><?= $tournoi['date_debut']; ?></td>
+                        <td><?= $tournoi['nom']; ?></td>
+                        <td>
+                            <?php if ($_SESSION['user_role'] === 'athlete'): ?>
+                                <a class="btn btn-primary-custom btn-sm"
+                                   href="inscription_tournoi.php?id=<?= $tournoi['id'] ?>">
+                                   S'inscrire
+                                </a>
+
+                            <?php elseif ($_SESSION['user_role'] === 'club' && $tournoi['club_id'] == $_SESSION['user_id']): ?>
+                                <a class="btn btn-outline-custom btn-sm"
+                                   href="gestion_tournoi.php?id=<?= $tournoi['id'] ?>">
+                                   Gérer
+                                </a>
+                            <?php else: ?>
+                                —
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Athlete registrations -->
+    <?php if ($_SESSION['user_role'] === 'athlete'): ?>
+        <div class="glass-card mb-4">
+            <h4 class="mb-3">Mes inscriptions</h4>
+
+            <?php if (count($mes_inscriptions) > 0): ?>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Tournoi</th>
+                                <th>Lieu</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($mes_inscriptions as $insc): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($insc['titre']) ?></td>
+                                <td><?= htmlspecialchars($insc['lieu']) ?></td>
+                                <td><?= htmlspecialchars($insc['date_debut']) ?></td>
+                                <td>
+                                    <a class="btn btn-outline-danger btn-sm"
+                                       href="annuler_inscription.php?id=<?= $insc['id'] ?>"
+                                       onclick="return confirm('Voulez-vous vraiment vous désinscrire ?')">
+                                       Se désinscrire
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <p class="text-muted-custom">Vous n'êtes inscrit à aucun tournoi pour le moment.</p>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+
+</div>
+
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

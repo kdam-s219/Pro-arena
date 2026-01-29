@@ -1,7 +1,7 @@
 <?php
 require_once 'config.php'; // Inclure le fichier de configuration pour la connexion à la base de données
 
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'club') {
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] == 'athlete' ) {
     header("Location: dashboard.php");
     exit();
 }
@@ -40,29 +40,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Créer un tournoi - Pro-Arena</title>
+    <title>Créer un tournoi - ProArena</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/design-system.css">
 </head>
 <body>
-    <h1>Créer un nouveau tournoi</h1>
-    <p><?php echo $message; ?></p>
 
-    <form action="creer_tournoi.php" method="POST">
-        <label>Titre du tournoi :</label><br>
-        <input type="text" name="titre" required><br><br>
+<!-- Navbar -->
+<nav class="navbar navbar-custom px-4">
+    <a href="dashboard.php" class="navbar-brand text-white fw-bold">← ProArena</a>
 
-        <label>Description :</label><br>
-        <textarea name="description" rows="5"></textarea><br><br>
+    <div class="ms-auto">
+        <a href="dashboard.php" class="btn btn-outline-custom btn-sm">Retour dashboard</a>
+    </div>
+</nav>
 
-        <label>Date et heure de début :</label><br>
-        <input type="datetime-local" name="date_debut" required><br><br>
+<div class="container my-5">
 
-        <label>Lieu :</label><br>
-        <input type="text" name="lieu" placeholder="Ex: Casablanca" required><br><br>
+    <div class="row justify-content-center">
+        <div class="col-md-7">
 
-        <button type="submit">Enregistrer le tournoi</button>
-    </form>
+            <div class="glass-card fade-up">
 
-    <br>
-    <a href="dashboard.php">Retour au dashboard</a>
+                <h3 class="mb-4">Créer un nouveau tournoi</h3>
+
+                <?php if (!empty($message)): ?>
+                    <div class="alert alert-info">
+                        <?= $message ?>
+                    </div>
+                <?php endif; ?>
+
+                <form action="creer_tournoi.php" method="POST">
+
+                    <div class="mb-3">
+                        <label class="form-label">Titre du tournoi</label>
+                        <input type="text" name="titre" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" rows="4" class="form-control"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Date et heure de début</label>
+                        <input type="datetime-local" name="date_debut" class="form-control" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Lieu</label>
+                        <input type="text" name="lieu" class="form-control" placeholder="Ex: Casablanca" required>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="dashboard.php" class="btn btn-outline-custom">
+                            Annuler
+                        </a>
+
+                        <button type="submit" class="btn btn-primary-custom">
+                            Enregistrer le tournoi
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

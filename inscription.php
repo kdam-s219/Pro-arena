@@ -46,50 +46,164 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Inscription - Pro-Arena</title>
-    </head>
-    
-    <body>
-    <div class="form-container">
-        <h2>S'inscrire</h2>
-        <?php if($message) echo "<p>$message</p>"; ?>
-        
-        <form action="inscription.php" method="POST">
-           
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription - ProArena</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/design-system.css">
 
-            <label for="nom_id">Nom :</label>
-            <input type="text" name="nom" placeholder="Nom " id="nom_id" required>
-            <br><br>
+    <style>
+        /* Role cards */
+        .role-card {
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 14px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: rgba(255,255,255,0.04);
+        }
 
-            <label for="prenom_id">Prénom :</label>
-            <input type="text" name="prenom" placeholder="Prénom" id="prenom_id" required>
-            <br><br>
+        .role-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
 
-            
+        .role-card.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(34,197,94,0.4);
+        }
 
-            <label for="email_id">Email :</label>
-            <input type="email" name="email" placeholder="Email" id="email_id" required>
-            <br><br>
-           
-            <label for="mdp_id">Mot de passe :</label>
-            <input type="password" name="mot_de_passe" placeholder="Mot de passe" id="mdp_id" required>
-            <br><br>
+        .password-wrapper {
+            position: relative;
+        }
 
-            <label for="role_id">Vous êtes :</label>
-            <select name="role" id="role_id">
-                <option value="athlete">Athlète</option>
-                <option value="organisateur">Organisateur</option>
-                <option value ="club">Club</option> 
-            </select>
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
 
-            <br><br>
+<div class="full-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
 
-            <button type="submit">Créer mon compte</button>
-        </form>
-        <p>Déjà inscrit ? <a href="login.php">Se connecter</a></p>
+                <div class="glass-card fade-up">
+
+                    <h2 class="text-center mb-4">Créer un compte</h2>
+
+                    <?php if(!empty($message)): ?>
+                        <div class="alert alert-danger"><?= $message ?></div>
+                    <?php endif; ?>
+
+                    <form action="inscription.php" method="POST">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nom</label>
+                                <input type="text" name="nom" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Prénom</label>
+                                <input type="text" name="prenom" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+
+                        <!-- Password with toggle -->
+                        <div class="mb-3">
+                            <label class="form-label">Mot de passe</label>
+                            <div class="password-wrapper">
+                                <input type="password" name="mot_de_passe" id="passwordInput" class="form-control" required>
+                                <span class="toggle-password" onclick="togglePassword()">Afficher</span>
+                            </div>
+                        </div>
+
+                        <!-- Role cards -->
+                        <div class="mb-4">
+                            <label class="form-label mb-2">Vous êtes</label>
+
+                            <input type="hidden" name="role" id="roleInput" value="athlete">
+
+                            <div class="row g-3">
+                                <div class="col-4">
+                                    <div class="role-card active" onclick="selectRole('athlete', this)">
+                                        🥋<br>Athlète
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="role-card" onclick="selectRole('organisateur', this)">
+                                        🏆<br>Organisateur
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="role-card" onclick="selectRole('club', this)">
+                                        🏟️<br>Club
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary-custom w-100">
+                            Créer mon compte
+                        </button>
+
+                    </form>
+
+                    <p class="text-center mt-3 text-muted-custom">
+                        Déjà inscrit ? <a href="login.php">Se connecter</a>
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
     </div>
-    </body>
+</div>
+
+<script src="js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function togglePassword() {
+        const input = document.getElementById("passwordInput");
+        const toggle = document.querySelector(".toggle-password");
+
+        if (input.type === "password") {
+            input.type = "text";
+            toggle.innerText = "Masquer";
+        } else {
+            input.type = "password";
+            toggle.innerText = "Afficher";
+        }
+    }
+
+    function selectRole(role, element) {
+        document.getElementById("roleInput").value = role;
+
+        document.querySelectorAll(".role-card").forEach(card => {
+            card.classList.remove("active");
+        });
+
+        element.classList.add("active");
+    }
+</script>
+
+</body>
 </html>

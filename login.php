@@ -42,25 +42,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion - Pro-Arena</title>
+    <title>Connexion - ProArena</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/design-system.css">
 </head>
 <body>
-    <h1>Se connecter</h1>
 
-    <?php if(!empty($message)) echo "<p style='color:red;'>$message</p>"; ?>
+<div class="full-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
 
-    <form action="login.php" method="POST">
-        <label for="email_id">Email :</label>
-        <input type="email" name="email" id="email_id" required>
-        <br><br>
+                <div class="glass-card fade-up">
 
-        <label for="mdp_id">Mot de passe :</label>
-        <input type="password" name="mot_de_passe" id="mdp_id" required>
-        <br><br>
+                    <h2 class="text-center mb-4">Connexion</h2>
 
-        <button type="submit">Se connecter</button>
-    </form>
+                    <?php if(!empty($message)): ?>
+                        <div class="alert alert-danger">
+                            <?= $message ?>
+                        </div>
+                    <?php endif; ?>
 
-    <p>Pas encore inscrit ? <a href="inscription.php">S'inscrire</a></p>
+                    <form action="login.php" method="POST">
+
+                        <div class="mb-3">
+                            <label for="email_id" class="form-label">Email</label>
+                            <input type="email" name="email" id="email_id" class="form-control" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="mdp_id" class="form-label">Mot de passe</label>
+                            <input type="password" name="mot_de_passe" id="mdp_id" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary-custom w-100">
+                            Se connecter
+                        </button>
+
+                    </form>
+
+                    <p class="text-center mt-3 text-muted-custom">
+                        Pas encore inscrit ?
+                        <a href="inscription.php">Créer un compte</a>
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
