@@ -1,7 +1,7 @@
 <?php
 require_once 'config.php';
 
-// Sécurité : Seul le club créateur peut voir cette page
+// Sécurité : Seul le club peut voir cette page
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'club') {
     header("Location: dashboard.php");
     exit();
@@ -30,6 +30,9 @@ $inscrits = $stmt->fetchAll();
     <h1>Liste des participants inscrits</h1>
     <a href="dashboard.php">Retour au Dashboard</a>
     <br><br>
+    
+    <h3>Nombre de participants inscrits : <?php echo count($inscrits); ?></h3>
+    <br>
 
     <table border="1">
         <thead>

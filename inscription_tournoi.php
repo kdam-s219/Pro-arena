@@ -37,3 +37,14 @@ if (isset($_GET['id'])) {
     header("Location: dashboard.php");
     exit();
 }
+// 1. Vérifier si l'utilisateur est déjà inscrit
+$check = $pdo->prepare("SELECT id FROM inscription WHERE id_utulisateur = :uid AND id_competition = :cid");
+$check->execute(['uid' => $_SESSION['user_id'], 'cid' => $id_tournoi]);
+
+if ($check->rowCount() > 0) {
+    // Déjà inscrit ! On le renvoie avec un message d'erreur
+    header("Location: dashboard.php?error=deja_inscrit");
+    exit();
+}
+
+// 2. Si non, on procède à l'inscription normalement...
