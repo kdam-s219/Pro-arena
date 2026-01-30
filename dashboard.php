@@ -160,4 +160,16 @@ if ($_SESSION['user_role'] === 'club') {
 
 <script src="js/bootstrap.bundle.min.js"></script>
 </body>
+<?php if ($_SESSION['user_role'] === 'admin'): ?>
+    <div class="alert alert-info border-0 shadow-sm d-flex justify-content-between align-items-center mb-4" style="background: rgba(13, 110, 253, 0.1); border-radius: 15px;">
+        <div class="d-flex align-items-center gap-3">
+            <span class="fs-3">🛡️</span>
+            <div>
+                <h5 class="mb-0 text-white">Mode Administrateur</h5>
+                <small class="text-white-50">Vous avez accès aux fonctions de gestion globale.</small>
+            </div>
+        </div>
+        <a href="admin_dashboard.php" class="btn btn-primary-custom btn-sm px-4">Accéder au Panel Admin</a>
+    </div>
+<?php endif; ?>
 </html>
