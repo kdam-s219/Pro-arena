@@ -55,6 +55,7 @@ $users = $pdo->query("SELECT * FROM utulisateurs ORDER BY date_d_inscription DES
         
         /* Effet au survol de la ligne */
         .table tbody tr:hover { background: rgba(13, 110, 253, 0.03); }
+        .text-muted { background: linear-gradient(to right, #ffffff, #cde1ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .text-gradient { background: linear-gradient(to right, #3b82f6, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         

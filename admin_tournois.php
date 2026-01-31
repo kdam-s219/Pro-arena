@@ -51,7 +51,7 @@ $tournois = $pdo->query($sql)->fetchAll();
         
         /* Effet de survol sombre (vert nuit) */
         .table tbody tr:hover { background: rgba(6, 78, 59, 0.3); }
-
+        .text-muted { background: linear-gradient(to right, #ffffff, #c2cdf3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }    
         .text-gradient { background: linear-gradient(to right, #10b981, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .badge-sport { background: rgba(13, 110, 253, 0.1); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.2); }
         .btn-delete { color: #f87171; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 50px; padding: 6px 16px; transition: 0.3s; }
@@ -91,7 +91,7 @@ $tournois = $pdo->query($sql)->fetchAll();
                                 <td class="fw-bold text-black"><?= htmlspecialchars($t['titre']) ?></td>
                                 <td><?= htmlspecialchars($t['club_nom']) ?></td>
                                 <td><span class="badge badge-sport rounded-pill px-3 py-2"><?= htmlspecialchars($t['sport']) ?></span></td>
-                                <td class="text-muted small"><?= htmlspecialchars($t['lieu']) ?></td>
+                                <td class="fw-bold text-black"><?= htmlspecialchars($t['lieu']) ?></td>
                                 <td class="text-end">
                                     <a href="admin_tournois.php?delete=<?= $t['id'] ?>" class="btn btn-delete" onclick="return confirm('Supprimer définitivement ?')">Supprimer</a>
                                 </td>
