@@ -63,46 +63,139 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Modifier - <?= htmlspecialchars($tournoi['titre']) ?></title>
+
+    <!-- CSS LOCAL -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/design-system.css">
 </head>
+
 <body>
-    <a href="gestion_tournoi.php?id=<?= $id_tournoi ?>">Annuler et retour</a>
-    <h1>Modifier le tournoi</h1>
 
-    <?php if(isset($erreur)) echo "<p style='color:red;'>$erreur</p>"; ?>
+<div class="container py-5" style="max-width: 900px;">
 
-    <form method="POST">
-        <label>Titre :</label><br>
-        <input type="text" name="titre" value="<?= htmlspecialchars($tournoi['titre']) ?>" required><br><br>
+    <a href="gestion_tournoi.php?id=<?= $id_tournoi ?>" class="text-decoration-none text-muted">
+        ← Annuler et retour
+    </a>
 
-        <label>Sport :</label><br>
-        <select name="sport" required>
-            <option value="Judo" <?= $tournoi['sport'] == 'Judo' ? 'selected' : '' ?>>Judo</option>
-            <option value="Karate" <?= $tournoi['sport'] == 'Karate' ? 'selected' : '' ?>>Karaté</option>
-            <option value="Jujitsu" <?= $tournoi['sport'] == 'Jujitsu' ? 'selected' : '' ?>>Jujitsu</option>
-        </select><br><br>
+    <h1 class="mt-3 mb-4">Modifier le tournoi</h1>
 
-        <label>Description :</label><br>
-        <textarea name="description" rows="4" cols="50"><?= htmlspecialchars($tournoi['description']) ?></textarea><br><br>
+    <?php if (isset($erreur)): ?>
+        <div class="alert alert-danger">
+            <?= htmlspecialchars($erreur) ?>
+        </div>
+    <?php endif; ?>
 
-        <label>Lieu :</label><br>
-        <input type="text" name="lieu" value="<?= htmlspecialchars($tournoi['lieu']) ?>" required><br><br>
+    <div class="glass-card">
 
-        <label>Date de début :</label><br>
-        <input type="datetime-local" name="date_debut" value="<?= date('Y-m-d\TH:i', strtotime($tournoi['date_debut'])) ?>" required><br><br>
+        <form method="POST">
 
-        <label>Date limite d'inscription :</label><br>
-        <input type="datetime-local" name="date_limite" value="<?= date('Y-m-d\TH:i', strtotime($tournoi['date_limite'])) ?>" required><br><br>
+            <!-- Titre -->
+            <div class="mb-3">
+                <label class="form-label">Titre du tournoi</label>
+                <input type="text"
+                       name="titre"
+                       class="form-control"
+                       value="<?= htmlspecialchars($tournoi['titre']) ?>"
+                       required>
+            </div>
 
-        <label>Niveau requis actuel :</label> <strong><?= htmlspecialchars($tournoi['niveau_requis']) ?></strong><br>
-        <p style="font-size: 0.9em; color: gray;">(Cochez de nouvelles cases pour changer les grades autorisés)</p>
-        
-        <input type="checkbox" name="niveaux[]" value="Blanche"> Blanche
-        <input type="checkbox" name="niveaux[]" value="Bleue"> Bleue
-        <input type="checkbox" name="niveaux[]" value="Marron"> Marron
-        <input type="checkbox" name="niveaux[]" value="Noire"> Noire
-        <br><br>
+            <!-- Sport -->
+            <div class="mb-3">
+                <label class="form-label">Sport</label>
+                <select name="sport" class="form-select" required>
+                    <option value="Judo" <?= $tournoi['sport'] === 'Judo' ? 'selected' : '' ?>>Judo</option>
+                    <option value="Karate" <?= $tournoi['sport'] === 'Karate' ? 'selected' : '' ?>>Karaté</option>
+                    <option value="Jujitsu" <?= $tournoi['sport'] === 'Jujitsu' ? 'selected' : '' ?>>Jujitsu</option>
+                </select>
+            </div>
 
-        <button type="submit" style="background-color: green; color: white; padding: 10px;">Enregistrer les modifications</button>
-    </form>
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description"
+                          class="form-control"
+                          rows="4"><?= htmlspecialchars($tournoi['description']) ?></textarea>
+            </div>
+
+            <!-- Lieu -->
+            <div class="mb-3">
+                <label class="form-label">Lieu</label>
+                <input type="text"
+                       name="lieu"
+                       class="form-control"
+                       value="<?= htmlspecialchars($tournoi['lieu']) ?>"
+                       required>
+            </div>
+
+            <!-- Dates -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Date de début</label>
+                    <input type="datetime-local"
+                           name="date_debut"
+                           class="form-control"
+                           value="<?= date('Y-m-d\TH:i', strtotime($tournoi['date_debut'])) ?>"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Date limite d'inscription</label>
+                    <input type="datetime-local"
+                           name="date_limite"
+                           class="form-control"
+                           value="<?= date('Y-m-d\TH:i', strtotime($tournoi['date_limite'])) ?>"
+                           required>
+                </div>
+            </div>
+
+            <!-- Niveaux -->
+            <div class="mb-4">
+                <label class="form-label">
+                    Niveaux requis actuels :
+                    <strong><?= htmlspecialchars($tournoi['niveau_requis']) ?></strong>
+                </label>
+
+                <div class="d-flex flex-wrap gap-3 mt-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="niveaux[]" value="Blanche" id="b1">
+                        <label class="form-check-label" for="b1">Blanche</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="niveaux[]" value="Bleue" id="b2">
+                        <label class="form-check-label" for="b2">Bleue</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="niveaux[]" value="Marron" id="b3">
+                        <label class="form-check-label" for="b3">Marron</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="niveaux[]" value="Noire" id="b4">
+                        <label class="form-check-label" for="b4">Noire</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-end gap-2">
+                <a href="gestion_tournoi.php?id=<?= $id_tournoi ?>"
+                   class="btn btn-outline-secondary">
+                    Annuler
+                </a>
+
+                <button type="submit" class="btn btn-primary-custom">
+                    Enregistrer les modifications
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -57,62 +57,132 @@ $sports_deja_inscrits = explode(", ", $user['sport_prefere']);
 <head>
     <meta charset="UTF-8">
     <title>Mon Profil Sportif - Pro-Arena</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        .profil-card { border: 1px solid #ddd; padding: 20px; max-width: 500px; border-radius: 8px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); }
-        .sport-item { background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; border-left: 5px solid #007bff; }
-        .btn-save { background-color: #28a745; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .btn-save:hover { background-color: #218838; }
-        select { margin-left: 10px; padding: 5px; }
-    </style>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="css/design-system.css">
 </head>
-<body>
 
-    <a href="dashboard.php">← Retour au Dashboard</a>
-    
-    <div class="profil-card">
-        <h1>Mon Profil Sportif</h1>
-        <p><strong>Utilisateur :</strong> <?= htmlspecialchars($user['prenom']) ?> <?= htmlspecialchars($user['nom']) ?></p>
-        <p><strong>Statut :</strong> <?= htmlspecialchars($user['role']) ?></p>
+<body class="bg-light">
 
-        <?php if ($message): ?>
-            <p style="color: green; background: #e9f7ef; padding: 10px; border-radius: 5px;"><?= $message ?></p>
-        <?php endif; ?>
+<div class="container py-5">
 
-        <form method="POST">
-            <h3>Mes Disciplines & Niveaux</h3>
-
-            <?php foreach ($grades as $nom_sport => $liste_ceintures): 
-                // On vérifie si ce sport est déjà dans la base de données
-                $est_pratique = false;
-                $niveau_actuel = "Blanche";
-
-                foreach ($sports_deja_inscrits as $ligne) {
-                    if (strpos($ligne, $nom_sport) !== false) {
-                        $est_pratique = true;
-                        // On extrait le niveau entre parenthèses
-                        preg_match('/\((.*?)\)/', $ligne, $match);
-                        $niveau_actuel = $match[1] ?? "Blanche";
-                    }
-                }
-            ?>
-                <div class="sport-item">
-                    <input type="checkbox" name="sports[]" value="<?= $nom_sport ?>" <?= $est_pratique ? 'checked' : '' ?>>
-                    <strong><?= $nom_sport ?></strong>
-                    <br><br>
-                    <label>Ceinture :</label>
-                    <select name="niveau_<?= $nom_sport ?>">
-                        <?php foreach ($liste_ceintures as $c): ?>
-                            <option value="<?= $c ?>" <?= ($niveau_actuel == $c) ? 'selected' : '' ?>><?= $c ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            <?php endforeach; ?>
-
-            <br>
-            <button type="submit" class="btn-save">Enregistrer mon profil</button>
-        </form>
+    <!-- Retour -->
+    <div class="mb-4">
+        <a href="dashboard.php" class="btn btn-outline-custom btn-sm">
+            ← Retour au Dashboard
+        </a>
     </div>
+
+    <!-- Profil Card -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+
+            <div class="glass-card shadow-soft">
+                <div class="card-body p-4">
+
+                    <h3 class="mb-3">🏅 Mon Profil Sportif</h3>
+
+                    <div class="mb-3">
+                        <strong>Utilisateur :</strong>
+                        <?= htmlspecialchars($user['prenom']) ?> <?= htmlspecialchars($user['nom']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Statut :</strong>
+                        <span class="badge bg-secondary">
+                            <?= htmlspecialchars($user['role']) ?>
+                        </span>
+                    </div>
+
+                    <?php if ($message): ?>
+                        <div class="alert alert-success">
+                            <?= $message ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <hr>
+
+                    <form method="POST">
+
+                        <h5 class="mb-4">🥋 Disciplines & niveaux</h5>
+
+                        <?php foreach ($grades as $nom_sport => $liste_ceintures):
+
+                            $est_pratique = false;
+                            $niveau_actuel = "Blanche";
+
+                            foreach ($sports_deja_inscrits as $ligne) {
+                                if (strpos($ligne, $nom_sport) !== false) {
+                                    $est_pratique = true;
+                                    preg_match('/\((.*?)\)/', $ligne, $match);
+                                    $niveau_actuel = $match[1] ?? "Blanche";
+                                }
+                            }
+                        ?>
+
+                            <div class="border rounded p-3 mb-3 shadow-soft">
+
+                                <div class="form-check mb-3">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="sports[]"
+                                        value="<?= $nom_sport ?>"
+                                        id="sport_<?= $nom_sport ?>"
+                                        <?= $est_pratique ? 'checked' : '' ?>
+                                    >
+
+                                    <label class="form-check-label fw-bold" for="sport_<?= $nom_sport ?>">
+                                        <?= $nom_sport ?>
+                                    </label>
+                                </div>
+
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <label class="form-label mb-0">
+                                            Niveau
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <select
+                                            name="niveau_<?= $nom_sport ?>"
+                                            class="form-select"
+                                        >
+                                            <?php foreach ($liste_ceintures as $c): ?>
+                                                <option
+                                                    value="<?= $c ?>"
+                                                    <?= ($niveau_actuel === $c) ? 'selected' : '' ?>
+                                                >
+                                                    <?= $c ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary-custom btn-lg">
+                                💾 Enregistrer mon profil
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

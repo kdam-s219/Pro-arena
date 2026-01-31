@@ -42,60 +42,136 @@ $est_deja_inscrit = $check_stmt->fetch();
 <head>
     <meta charset="UTF-8">
     <title>Détails du Tournoi - <?= htmlspecialchars($tournoi['titre']) ?></title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/design-system.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #f8f9fa; padding: 40px; }
-        .details-container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
-        .sport-tag { display: inline-block; background: #007bff; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-bottom: 10px; }
-        .section { margin-bottom: 20px; }
-        .section-title { font-weight: bold; color: #333; display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; }
-        .btn-inscription { display: inline-block; width: 100%; text-align: center; padding: 15px; background: #28a745; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; transition: 0.3s; }
-        .btn-inscription:hover { background: #218838; }
-        .btn-deja { background: #6c757d; cursor: not-allowed; }
-        .club-info { background: #f1f3f5; padding: 20px; border-radius: 10px; margin-top: 30px; border-left: 5px solid #007bff; }
+        /* Styles spécifiques à cette page pour ajuster les détails */
+        .info-label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+        }
+        .club-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .btn-disabled-custom {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: not-allowed;
+            border-radius: 12px;
+            padding: 10px 22px;
+            width: 100%;
+            display: inline-block;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-<div class="details-container">
-    <a href="tournois.php" style="text-decoration: none; color: #007bff;">← Retour aux tournois</a>
-
-    <div class="header">
-        <span class="sport-tag"><?= htmlspecialchars($tournoi['sport']) ?></span>
-        <h1><?= htmlspecialchars($tournoi['titre']) ?></h1>
+<div class="container py-5">
+    
+    <div class="mb-4">
+        <a href="tournois.php" class="text-decoration-none d-flex align-items-center gap-2 text-muted-custom hover-white">
+            <span>&larr;</span> Retour aux tournois
+        </a>
     </div>
 
-    <div class="section">
-        <span class="section-title">Description</span>
-        <p><?= nl2br(htmlspecialchars($tournoi['description'])) ?></p>
-    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="glass-card fade-up">
+                
+                <div class="border-bottom border-secondary border-opacity-25 pb-4 mb-4">
+                    <span class="badge mb-3" style="background-color: var(--accent); color: #052e16; font-size: 0.9rem;">
+                        <?= htmlspecialchars($tournoi['sport']) ?>
+                    </span>
+                    <h1 class="display-5 fw-bold mb-2"><?= htmlspecialchars($tournoi['titre']) ?></h1>
+                </div>
 
-    <div class="section">
-        <span class="section-title">Informations Logistiques</span>
-        <p>📍 <strong>Lieu :</strong> <?= htmlspecialchars($tournoi['lieu']) ?></p>
-        <p>📅 <strong>Date du tournoi :</strong> <?= date('d/m/Y H:i', strtotime($tournoi['date_debut'])) ?></p>
-        <p>⏳ <strong>Date limite d'inscription :</strong> <?= date('d/m/Y H:i', strtotime($tournoi['date_limite'])) ?></p>
-        <p>🥋 <strong>Grades acceptés :</strong> <?= htmlspecialchars($tournoi['niveau_requis']) ?></p>
-    </div>
+                <div class="row g-5">
+                    <div class="col-md-7">
+                        <h4 class="mb-3 text-white">À propos du tournoi</h4>
+                        <div class="text-muted-custom" style="line-height: 1.7;">
+                            <?= nl2br(htmlspecialchars($tournoi['description'])) ?>
+                        </div>
+                    </div>
 
-    <div class="club-info">
-        <span class="section-title">Organisateur</span>
-        <p>🏛️ <strong>Club :</strong> <?= htmlspecialchars($tournoi['club_nom']) ?></p>
-        
-    </div>
+                    <div class="col-md-5">
+                        <div class="p-4 rounded-4" style="background: rgba(0,0,0,0.2);">
+                            
+                            <h5 class="mb-4 text-white">Informations Clés</h5>
 
-    <div style="margin-top: 30px;">
-        <?php if ($_SESSION['user_role'] === 'athlete'): ?>
-            <?php if ($est_deja_inscrit): ?>
-                <span class="btn-inscription btn-deja">✅ Déjà inscrit à ce tournoi</span>
-            <?php else: ?>
-                <a href="inscription_tournoi.php?id=<?= $tournoi['id'] ?>" class="btn-inscription">S'inscrire maintenant</a>
-            <?php endif; ?>
-        <?php else: ?>
-            <p style="text-align: center; color: #999; font-style: italic;">Seuls les athlètes peuvent s'inscrire.</p>
-        <?php endif; ?>
+                            <div class="mb-3">
+                                <span class="info-label">📍 Lieu</span>
+                                <span class="info-value"><?= htmlspecialchars($tournoi['lieu']) ?></span>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <span class="info-label">📅 Début</span>
+                                    <span class="info-value"><?= date('d/m/Y', strtotime($tournoi['date_debut'])) ?></span>
+                                    <small class="text-muted d-block"><?= date('H:i', strtotime($tournoi['date_debut'])) ?></small>
+                                </div>
+                                <div class="col-6">
+                                    <span class="info-label">⏳ Limite d'inscription</span>
+                                    <span class="info-value text-warning"><?= date('d/m/Y', strtotime($tournoi['date_limite'])) ?></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <span class="info-label">🥋 Niveau requis</span>
+                                <span class="info-value"><?= htmlspecialchars($tournoi['niveau_requis']) ?></span>
+                            </div>
+
+                            <div class="club-card mb-4 d-flex align-items-center gap-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded-circle text-primary">
+                                    🏛️
+                                </div>
+                                <div>
+                                    <span class="info-label mb-0" style="font-size: 0.7em;">Organisé par</span>
+                                    <span class="fw-bold d-block text-white"><?= htmlspecialchars($tournoi['club_nom']) ?></span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <?php if ($_SESSION['user_role'] === 'athlete'): ?>
+                                    <?php if ($est_deja_inscrit): ?>
+                                        <div class="btn-disabled-custom">
+                                            ✅ Vous êtes inscrit
+                                        </div>
+                                    <?php else: ?>
+                                        <a href="inscription_tournoi.php?id=<?= $tournoi['id'] ?>" class="btn-primary-custom w-100 d-block text-center text-decoration-none">
+                                            S'inscrire maintenant
+                                        </a>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <div class="text-center p-3 border border-secondary border-opacity-25 rounded-3">
+                                        <small class="text-muted fst-italic">Connectez-vous en tant qu'athlète pour participer.</small>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 
+<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
