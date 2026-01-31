@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 29, 2026 at 08:25 PM
+-- Generation Time: Jan 31, 2026 at 03:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,7 +33,7 @@ CREATE TABLE `utulisateurs` (
   `prenom` varchar(150) NOT NULL,
   `email` varchar(150) NOT NULL,
   `mot_de_passe` varchar(255) NOT NULL,
-  `role` enum('athlete','organisateur','club') NOT NULL,
+  `role` enum('athlete','organisateur','club','admin') NOT NULL,
   `date_d_inscription` datetime NOT NULL DEFAULT current_timestamp(),
   `sport_prefere` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -43,10 +43,9 @@ CREATE TABLE `utulisateurs` (
 --
 
 INSERT INTO `utulisateurs` (`id`, `nom`, `prenom`, `email`, `mot_de_passe`, `role`, `date_d_inscription`, `sport_prefere`) VALUES
-(4, 'ELMOUDNI', 'ADAM', 'adam24moudni@gmail.com', '$2y$10$HHp6FTZmpizP22gNGXwQvuPhbjzKvzGV..z3aGSXpbH6jmGkIlDPy', 'athlete', '2026-01-24 01:53:56', NULL),
-(5, 'FAHD', 'adam', 'adamelmoudni8@gmail.com', '$2y$10$2WpW8eybJPGirPD0GZoFme/j2jAo6KwsicXcRU783SzVPBB7W1tqS', 'club', '2026-01-27 04:14:04', NULL),
-(6, 'l3witi', '7med', '7medben7med@gmail.com', '$2y$10$MnbIctuOaPIKP9Qo7s9yi.GRgRAHYE5X1KAih8NnOO3jMB.DHNwYK', 'athlete', '2026-01-27 04:59:36', NULL),
-(7, 'samiri', 'ali', 'alisamiri@gmail.com', '$2y$10$MuVdKVIUSBo/p.kWT17zlO9Lt6DoLZgEGq2yZd6JAwxieP20hp7xG', 'athlete', '2026-01-27 05:28:42', NULL);
+(5, 'elmoudni ', 'adam', 'adam24moudni@gmail.com', '$2y$10$BR/ROeuhUldTOIBjhSN7R.YOSdarS6ACoFKyg..xspzC5I7Cb9IEy', 'athlete', '2026-01-30 04:03:30', NULL),
+(6, 'FAHD', 'DAHD', 'adamelmoudni8@gmail.com', '$2y$10$D.xqDOgij7TfkZZwsz0CH..EJ3XqfoI.fybUjwMo.qn2dwp.xguQm', 'club', '2026-01-30 04:04:02', NULL),
+(7, 'admin', 'admin', 'admin@gmail.com', '$2y$10$LsVW6a./KH0feSpH/V37t.cAWy2PMm6RgepQKVUMkGcyB8P/nbUC2', 'admin', '2026-01-30 04:08:54', NULL);
 
 --
 -- Indexes for dumped tables
@@ -66,13 +65,10 @@ ALTER TABLE `utulisateurs`
 --
 -- AUTO_INCREMENT for table `utulisateurs`
 --
- 
+ALTER TABLE `utulisateurs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+COMMIT;
 
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `utulisateurs`
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
