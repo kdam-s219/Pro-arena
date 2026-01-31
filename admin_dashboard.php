@@ -48,14 +48,14 @@ try {
         <div class="col-md-4">
             <div class="glass-card text-center">
                 <h3 class="text-muted-custom">Tournois</h3>
-                <h1 class="display-4 fw-bold text-success"><?= $total_tournois ?></h1>
+                <h1 class="display-4 fw-bold text-primary"><?= $total_tournois ?></h1>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="glass-card text-center">
                 <h3 class="text-muted-custom">Inscriptions</h3>
-                <h1 class="display-4 fw-bold text-info"><?= $total_inscriptions ?></h1>
+                <h1 class="display-4 fw-bold text-primary"><?= $total_inscriptions ?></h1>
             </div>
         </div>
     </div>

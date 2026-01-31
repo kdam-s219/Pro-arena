@@ -131,7 +131,7 @@ $currentUser = $stmt->fetch();
              <div class="col-12 mt-2">
                  <div class="p-3 border border-danger rounded">
                     <h5 class="text-danger">Zone de danger</h5>
-                    <p class="small text-muted">La suppression de votre compte est irréversible.</p>
+                    <p class="text-danger">La suppression de votre compte est irréversible.</p>
                     <a href="supprimer_compte.php" onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?')" class="btn btn-outline-danger btn-sm">Supprimer mon compte</a>
                  </div>
             </div>

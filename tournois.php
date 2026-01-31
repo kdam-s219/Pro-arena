@@ -99,27 +99,27 @@ $tournois = $stmt->fetchAll();
             <div class="col-md-3">
                 <label class="form-label">Ville</label>
                 <select name="ville" class="form-control">
-                    <option value="">Toutes les villes</option>
-                    <option value="Casablanca" <?= $ville_filtre == 'Casablanca' ? 'selected' : '' ?>>Casablanca</option>
-                    <option value="Rabat" <?= $ville_filtre == 'Rabat' ? 'selected' : '' ?>>Rabat</option>
-                    <option value="Tanger" <?= $ville_filtre == 'Tanger' ? 'selected' : '' ?>>Tanger</option>
+                    <option class="text-black small m-0" value="">Toutes les villes</option>
+                    <option class="text-black small m-0" value="Casablanca" <?= $ville_filtre == 'Casablanca' ? 'selected' : '' ?>>Casablanca</option>
+                    <option class="text-black small m-0" value="Rabat" <?= $ville_filtre == 'Rabat' ? 'selected' : '' ?>>Rabat</option>
+                    <option class="text-black small m-0" value="Tanger" <?= $ville_filtre == 'Tanger' ? 'selected' : '' ?>>Tanger</option>
                 </select>
             </div>
 
             <div class="col-md-3">
                 <label class="form-label">Sport</label>
                 <select name="sport" id="filterSport" class="form-control" onchange="updateFilterBelts()">
-                    <option value="">Tous les sports</option>
-                    <option value="Judo" <?= $sport_filtre == 'Judo' ? 'selected' : '' ?>>Judo</option>
-                    <option value="Karate" <?= $sport_filtre == 'Karate' ? 'selected' : '' ?>>Karaté</option>
-                    <option value="Jujitsu" <?= $sport_filtre == 'Jujitsu' ? 'selected' : '' ?>>Jujitsu</option>
+                    <option class="text-black small m-0" value="">Tous les sports</option>
+                    <option class="text-black small m-0" value="Judo" <?= $sport_filtre == 'Judo' ? 'selected' : '' ?>>Judo</option>
+                    <option class="text-black small m-0 "value="Karate" <?= $sport_filtre == 'Karate' ? 'selected' : '' ?>>Karaté</option>
+                    <option class="text-black small m-0 "value="Jujitsu" <?= $sport_filtre == 'Jujitsu' ? 'selected' : '' ?>>Jujitsu</option>
                 </select>
             </div>
 
             <div class="col-md-3">
                 <label class="form-label">Niveau requis</label>
                 <select name="niveau" id="filterLevel" class="form-control">
-                    <option value="">Tous les niveaux</option>
+                    <option class="text-black small m-0" value="">Tous les niveaux</option>
                 </select>
             </div>
 
@@ -206,13 +206,18 @@ function updateFilterBelts() {
     const levelSelect = document.getElementById('filterLevel');
     const currentNiveau = "<?= htmlspecialchars($niveau_filtre) ?>";
 
-    levelSelect.innerHTML = '<option value="">Tous les niveaux</option>';
+    // On force le texte en noir aussi pour l'option par défaut
+    levelSelect.innerHTML = '<option value="" class="text-black">Tous les niveaux</option>';
 
     if (beltsBySport[sport]) {
         beltsBySport[sport].forEach(belt => {
             const option = document.createElement('option');
             option.value = belt;
             option.text = "Ceinture " + belt;
+            
+            // AJOUT ICI : On force la couleur noire sur l'élément option
+            option.classList.add('text-black'); 
+            
             if (belt === currentNiveau) option.selected = true;
             levelSelect.appendChild(option);
         });

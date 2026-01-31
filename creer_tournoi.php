@@ -149,14 +149,16 @@ function updateBelts() {
         beltData[sport].forEach(belt => {
             const div = document.createElement('div');
             div.className = 'form-check mb-1';
+            // J'ai ajouté 'text-black' dans la classe du label ci-dessous
             div.innerHTML = `
                 <input class="form-check-input" type="checkbox" name="niveaux[]" value="${belt}" id="belt_${belt}">
-                <label class="form-check-label" for="belt_${belt}">Ceinture ${belt}</label>
+                <label class="form-check-label text-black" for="belt_${belt}">Ceinture ${belt}</label>
             `;
             container.appendChild(div);
         });
     } else {
-        container.innerHTML = '<p class="text-muted small m-0">Sélectionnez d\'abord une discipline...</p>';
+        // Ici aussi, on met le texte en noir pour le message par défaut
+        container.innerHTML = '<p class="text-black small m-0">Sélectionnez d\'abord une discipline...</p>';
     }
 }
 </script>

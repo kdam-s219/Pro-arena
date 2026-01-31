@@ -115,7 +115,9 @@ if ($_SESSION['user_role'] === 'club') {
                 <div class="px-3 py-2 border-bottom border-secondary border-opacity-25 text-muted small">
                     Compte
                 </div>
+                <?php if ($_SESSION['user_role'] === 'admin'): ?>
                 <a href="porifil.php">👤 Mon profil</a>
+                <?php endif; ?>
                 <a href="settings.php">⚙️ Paramètres</a>
                 <div class="border-top border-secondary border-opacity-25 my-1"></div>
                 <a href="logout.php" class="text-danger">🚪 Déconnexion</a>
@@ -140,12 +142,14 @@ if ($_SESSION['user_role'] === 'club') {
                 <hr class="opacity-25 text-white">
                 
                 <div class="text-start px-2 mt-3">
-                    <p class="small text-muted mb-1">🥋 Informations :</p>
+                    <p class="text-white-50 small m-0">🥋 Informations :</p>
                     <p class="small fw-bold">
                         <?= $_SESSION['user_role'] === 'athlete' ? 'Discipline : ' . htmlspecialchars($user_data['sport_prefere'] ?? 'Non défini') : 'Compétitions gérées' ?>
                     </p>
                 </div>
+               <?php if ($_SESSION['user_role'] === 'admin'): ?>
                 <a href="porifil.php" class="btn btn-outline-light btn-sm w-100 mt-3">Gérer mon compte</a>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -188,7 +192,36 @@ if ($_SESSION['user_role'] === 'club') {
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
-
+<?php if ($_SESSION['user_role'] === 'club'): ?>
+                <h4 class="mb-4">Mes tournois organisés 🏟️</h4>
+                <div class="row">
+                    <?php if (count($mes_tournois_crees) > 0): ?>
+                        <?php foreach ($mes_tournois_crees as $tournoi): ?>
+                            <div class="col-md-6 col-xl-4 mb-4">
+                                <div class="glass-card h-100 d-flex flex-column border-top border-success border-4">
+                                    <div class="p-2">
+                                        <span class="badge bg-dark text-success mb-2"><?= htmlspecialchars($tournoi['sport']) ?></span>
+                                        <h5 class="fw-bold mb-3"><?= htmlspecialchars($tournoi['titre']) ?></h5>
+                                        <p class="small text-muted-custom mb-1">📍 <?= htmlspecialchars($tournoi['lieu']) ?></p>
+                                        <p class="small text-muted-custom">📅 <?= date('d/m/Y', strtotime($tournoi['date_debut'])) ?></p>
+                                    </div>
+                                    <div class="mt-auto pt-3 d-flex gap-2">
+                                        
+                                        <a href="gestion_tournoi.php?id=<?= $tournoi['id'] ?>" class="btn btn-outline-info btn-sm flex-grow-1">gestion de tournoi</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12">
+                            <div class="glass-card text-center py-5">
+                                <p class="text-muted mb-3">Vous n'avez pas encore créé de tournoi.</p>
+                                <a href="creer_tournoi.php" class="btn btn-primary-custom">Créer mon premier tournoi</a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
